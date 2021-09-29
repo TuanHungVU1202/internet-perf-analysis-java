@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.omg.Messaging.SyncScopeHelper;
+import sw.hv.exercise1.model.Task3Iperf;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -53,8 +54,10 @@ public class Task_3<K, V> {
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd ");
 
         // declare obj we need to get
-        double startIntervalTimestamp;
-        int numberOfRetransmit = 0;
+        int numberOfRetransmission = 0;
+        Task3Iperf task3Model = new Task3Iperf();
+        double secondsDiffEachRun = 0D;
+//        double previousRoundSecondsDiff = 0D;
 
         while (parser.hasNext()) {
             JsonElement element = parser.next();
@@ -68,33 +71,33 @@ public class Task_3<K, V> {
                 if (!intervalArr.isEmpty()){
                     // index for each run in 1 interval
                     int testIndex = 1;
+                    double previousRoundSecondsDiff = 0D;
 
-                    // getting Start time of each interval in Epoch timestamp
-                    startIntervalTimestamp = obj.get("start").getAsJsonObject()
+                    // getting very first Start time of each interval in Epoch timestamp
+                    double timeOfStart = obj.get("start").getAsJsonObject()
                             .get("timestamp").getAsJsonObject()
                             .get("timesecs").getAsDouble();
 
                     // format timestamp
-                    Date startIntervalTime = new Date((long)(startIntervalTimestamp * 1000));
+                    Date timeDateOfStart = new Date((long)(timeOfStart * 1000));
 
                     for (JsonElement intervalArrElement : intervalArr){
-                        // TODO: get from sum JsonObject NOT streams JsonArray => won't have to loop through array
-                        // TODO: remember to get "retransmits" too
                         // getting sum obj
                         // e.g {"start":0,"end":1.001465,"seconds":1.0014649629592896,"bytes":45108896,"bits_per_second":360343278.4444499,"omitted":false,"sender":true}
                         JsonObject sumObj = intervalArrElement.getAsJsonObject().get("sum").getAsJsonObject();
 
                         // timestamp and time of start each run
-                        double secondsDiffEachRun = sumObj.get("seconds").getAsDouble();
-                        // timestamp each run
-                        startIntervalTimestamp += secondsDiffEachRun;
-//                        System.out.println((long)startIntervalTimestamp);
+                        timeOfStart += previousRoundSecondsDiff;
+                        System.out.printf("%.15f%n", timeOfStart);
+                        System.out.printf("%.15f%n", previousRoundSecondsDiff);
+                        task3Model.setTimeOfStart((long)timeOfStart);
                         // format date time for each run
-                        Date eachRunTime = new Date((long)(startIntervalTimestamp * 1000));
+                        Date eachRunTime = new Date((long)(timeOfStart * 1000));
                         String formattedDate = dateFormatter.format(eachRunTime);
-                        String formattedTime = timeFormatter.format(eachRunTime);
+                        task3Model.setDateOfStart(formattedDate.toString());
 
-//                        System.out.println("---- " + testIndex + "--" + formattedDate+ " - " + formattedTime);
+                        secondsDiffEachRun = sumObj.get("seconds").getAsDouble();
+                        previousRoundSecondsDiff = secondsDiffEachRun;
 
                         // total bytes transferred each run
                         long totalByteTransferred = sumObj.get("bytes").getAsLong();
@@ -107,8 +110,10 @@ public class Task_3<K, V> {
 
                         // TCP retransmission
 //                        if (sumObj.get("sender").getAsBoolean()) {
-//                            numberOfRetransmit = sumObj.get("retransmits").getAsInt();
+//                            numberOfRetransmission = sumObj.get("retransmits").getAsInt();
 //                        }
+
+                        //TODO: add it to some kind of object to write to CSV
                         testIndex++;
                     }
                     System.out.println("*****" + totalIndex);
