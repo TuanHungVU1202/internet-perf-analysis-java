@@ -1,17 +1,8 @@
 package sw.hv.exercise1;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.gson.*;
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.omg.Messaging.SyncScopeHelper;
 import org.supercsv.cellprocessor.ParseDouble;
 import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.ParseLong;
@@ -21,21 +12,29 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 import sw.hv.exercise1.model.Task3Iperf;
+import sw.hv.util.Utils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class Task_3<K, V> {
+public class Task_3 {
     JSONObject jsoObject = new JSONObject();
     // object for calculation
     double totalBitrate = 0;
     ArrayList<Double> bitrateArrList = new ArrayList<>();
 
-    public void processFile() throws IOException {
-        InputStream is = new FileInputStream("");
+    public void parseFile () throws Exception {
+        String filePath = Utils.readInput();
+        boolean isValid = Utils.isValidFile(filePath);
+        if (isValid) {
+            processFile(filePath);
+        }
+    }
+
+    private void processFile(String filePath) throws IOException {
+        InputStream is = new FileInputStream(filePath);
         Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
         JsonStreamParser parser = new JsonStreamParser(reader);
         // index for total run count (number of intervals)
@@ -110,18 +109,18 @@ public class Task_3<K, V> {
                         }
 
                         lstOfDataRow.add(task3Model);
-                        System.out.println("-----" + intervalIndex);
+//                        System.out.println("-----" + intervalIndex);
                         intervalIndex++;
 
                     }
-                    System.out.println("*****" + totalIndex);
+//                    System.out.println("*****" + totalIndex);
                     totalIndex++;
                 }
             }
         }
 
         // Write to csv
-        String csvPath = "" ;
+        String csvPath = "/Users/hungvu/Desktop/E7130/e1/from_linux/t3_data.csv" ;
         writeCSV(csvPath,lstOfDataRow);
         bitrateCalculation();
     }

@@ -18,7 +18,7 @@ public class Main {
                 } else if (task == 3) {
                     System.out.println("case 3");
                     Task_3 t3 = new Task_3();
-                    t3.processFile();
+                    t3.parseFile();
                     break;
                 } else {
                     System.out.println("There are only 2 available tasks: 2 and 3. Please choose again");
