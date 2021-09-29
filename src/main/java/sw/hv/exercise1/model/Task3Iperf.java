@@ -6,7 +6,7 @@ public class Task3Iperf {
     private String timeOfStart;
     private long totalBytesTransferred;
     private double bitrate;
-//    private int numberOfRetransmission;
+    private int numberOfRetransmission;
 
     public long getEachRunTimestamp() {
         return eachRunTimestamp;
@@ -48,11 +48,11 @@ public class Task3Iperf {
         this.bitrate = bitrate;
     }
 
-//    public int getNumberOfRetransmission() {
-//        return numberOfRetransmission;
-//    }
-//
-//    public void setNumberOfRetransmission(int numberOfRetransmission) {
-//        this.numberOfRetransmission = numberOfRetransmission;
-//    }
+    public int getNumberOfRetransmission() {
+        return numberOfRetransmission;
+    }
+
+    public void setNumberOfRetransmission(int numberOfRetransmission) {
+        this.numberOfRetransmission = numberOfRetransmission;
+    }
 }

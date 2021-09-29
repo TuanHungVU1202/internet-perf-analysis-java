@@ -30,20 +30,25 @@ import java.util.stream.Collectors;
 
 public class Task_3<K, V> {
     JSONObject jsoObject = new JSONObject();
+    // object for calculation
+    double totalBitrate = 0;
+    ArrayList<Double> bitrateArrList = new ArrayList<>();
 
     public void processFile() throws IOException {
         InputStream is = new FileInputStream("");
         Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
         JsonStreamParser parser = new JsonStreamParser(reader);
+        // index for total run count (number of intervals)
+        int totalIndex = 1;
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd ");
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss.SSS");
 
         // declare obj we need to get
         int numberOfRetransmission = 0;
-
         double secondsDiffEachRun = 0D;
-//        double previousRoundSecondsDiff = 0D;
         List<Task3Iperf> lstOfDataRow = new ArrayList<Task3Iperf>();
+
+
 
         while (parser.hasNext()) {
             JsonElement element = parser.next();
@@ -55,6 +60,9 @@ public class Task_3<K, V> {
                 JsonArray intervalArr = obj.get("intervals").getAsJsonArray();
 
                 if (!intervalArr.isEmpty()){
+                    // index for each run in 1 interval
+                    int intervalIndex = 1;
+
                     // put here to reset after each interval
                     double previousRoundSecondsDiff = 0D;
 
@@ -69,7 +77,6 @@ public class Task_3<K, V> {
                     for (JsonElement intervalArrElement : intervalArr){
                         Task3Iperf task3Model = new Task3Iperf();
                         // getting sum obj
-                        // e.g {"start":0,"end":1.001465,"seconds":1.0014649629592896,"bytes":45108896,"bits_per_second":360343278.4444499,"omitted":false,"sender":true}
                         JsonObject sumObj = intervalArrElement.getAsJsonObject().get("sum").getAsJsonObject();
 
                         // timestamp and time of start each run
@@ -88,23 +95,27 @@ public class Task_3<K, V> {
                         // total bytes transferred each run
                         long totalByteTransferred = sumObj.get("bytes").getAsLong();
                         task3Model.setTotalBytesTransferred(totalByteTransferred);
-//                        System.out.println(totalByteTransferred);
 
                         // bitrate
                         double bitrate = sumObj.get("bits_per_second").getAsDouble();
                         task3Model.setBitrate(bitrate);
-//                        System.out.println(bitrate * Math.pow(10,-6));
-//                        System.out.printf("%.8f%n", bitrate);
-
+                        // Add up to get total bitrate
+                        totalBitrate += bitrate;
+                        bitrateArrList.add(bitrate);
 
                         // TCP retransmission
-//                        if (sumObj.get("sender").getAsBoolean()) {
-//                            numberOfRetransmission = sumObj.get("retransmits").getAsInt();
-//                        }
+                        if (sumObj.get("sender").getAsBoolean()) {
+                            numberOfRetransmission = sumObj.get("retransmits").getAsInt();
+                            task3Model.setNumberOfRetransmission(numberOfRetransmission);
+                        }
 
-                        // Add to list for each run˚
                         lstOfDataRow.add(task3Model);
+                        System.out.println("-----" + intervalIndex);
+                        intervalIndex++;
+
                     }
+                    System.out.println("*****" + totalIndex);
+                    totalIndex++;
                 }
             }
         }
@@ -112,6 +123,7 @@ public class Task_3<K, V> {
         // Write to csv
         String csvPath = "" ;
         writeCSV(csvPath,lstOfDataRow);
+        bitrateCalculation();
     }
 
     private void writeCSV (String csvFileName, List<Task3Iperf> lstOfDataRow){
@@ -122,13 +134,13 @@ public class Task_3<K, V> {
                 new NotNull(), // timeOfStart
                 new ParseLong(), // totalBytesTransferred
                 new ParseDouble(), // bitrate
-                //new ParseInt() // numberOfRetransmission
+                new ParseInt() // numberOfRetransmission
         };
 
         try {
             beanWriter = new CsvBeanWriter(new FileWriter(csvFileName),
                     CsvPreference.STANDARD_PREFERENCE);
-            String[] header = {"eachRunTimestamp", "dateOfStart", "timeOfStart", "totalBytesTransferred", "bitrate"};
+            String[] header = {"eachRunTimestamp", "dateOfStart", "timeOfStart", "totalBytesTransferred", "bitrate","numberOfRetransmission"};
             beanWriter.writeHeader(header);
 
             for (Task3Iperf row : lstOfDataRow) {
@@ -145,6 +157,22 @@ public class Task_3<K, V> {
                     System.err.println("Error closing the writer: " + ex);
                 }
             }
+        }
+    }
+
+    // For task 3.1, 3.2
+    private void bitrateCalculation () {
+        System.out.println("Task 3.1 - Average Bitrate = " + totalBitrate/bitrateArrList.size());
+        Collections.sort(bitrateArrList);
+        System.out.println("Task 3.2 - Minimum bitrate = " + bitrateArrList.get(0));
+        System.out.println("Task 3.2 - Maximum bitrate = " + bitrateArrList.get(bitrateArrList.size() - 1));
+
+        if (bitrateArrList.size() %2 != 0){
+            System.out.println("Task 3.2 - Median bitrate = " + bitrateArrList.get(bitrateArrList.size()/2));
+        } else {
+            double tmp1 = bitrateArrList.get((bitrateArrList.size()/2)-1);
+            double tmp2 = bitrateArrList.get((bitrateArrList.size()/2));
+            System.out.println("Task 3.2 - Median bitrate = " + (tmp1 + tmp2)/2);
         }
     }
 }

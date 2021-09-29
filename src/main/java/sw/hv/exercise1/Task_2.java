@@ -112,7 +112,7 @@ public class Task_2 {
         // Even number of total requests
         // Add 2 values found at the center and divide them by 2 to get median
         else {
-            double tempVal = rttArrList.get(((REQUEST_PER_ROUND*NUMBER_OF_ROUND)-1)/2) + rttArrList.get((REQUEST_PER_ROUND*NUMBER_OF_ROUND)/2);
+            double tempVal = rttArrList.get(((REQUEST_PER_ROUND*NUMBER_OF_ROUND)/2)-1) + rttArrList.get((REQUEST_PER_ROUND*NUMBER_OF_ROUND)/2);
             medianRttMap.put(hourNumer, tempVal / 2.0);
         }
     }
