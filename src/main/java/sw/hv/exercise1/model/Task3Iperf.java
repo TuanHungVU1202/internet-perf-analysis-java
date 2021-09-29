@@ -3,10 +3,10 @@ package sw.hv.exercise1.model;
 public class Task3Iperf {
     private long eachRunTimestamp;
     private String dateOfStart;
-    private long timeOfStart;
+    private String timeOfStart;
     private long totalBytesTransferred;
     private double bitrate;
-    private int numberOfRetransmission;
+//    private int numberOfRetransmission;
 
     public long getEachRunTimestamp() {
         return eachRunTimestamp;
@@ -24,11 +24,11 @@ public class Task3Iperf {
         this.dateOfStart = dateOfStart;
     }
 
-    public long getTimeOfStart() {
+    public String getTimeOfStart() {
         return timeOfStart;
     }
 
-    public void setTimeOfStart(long timeOfStart) {
+    public void setTimeOfStart(String timeOfStart) {
         this.timeOfStart = timeOfStart;
     }
 
@@ -48,11 +48,11 @@ public class Task3Iperf {
         this.bitrate = bitrate;
     }
 
-    public int getNumberOfRetransmission() {
-        return numberOfRetransmission;
-    }
-
-    public void setNumberOfRetransmission(int numberOfRetransmission) {
-        this.numberOfRetransmission = numberOfRetransmission;
-    }
+//    public int getNumberOfRetransmission() {
+//        return numberOfRetransmission;
+//    }
+//
+//    public void setNumberOfRetransmission(int numberOfRetransmission) {
+//        this.numberOfRetransmission = numberOfRetransmission;
+//    }
 }
