@@ -32,7 +32,7 @@ public class Task_3<K, V> {
     JSONObject jsoObject = new JSONObject();
 
     public void processFile() throws IOException {
-        InputStream is = new FileInputStream("/Users/hungvu/Desktop/E7130/e1/output/t3_normal.json");
+        InputStream is = new FileInputStream("");
         Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
         JsonStreamParser parser = new JsonStreamParser(reader);
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd ");
@@ -110,7 +110,7 @@ public class Task_3<K, V> {
         }
 
         // Write to csv
-        String csvPath = "/Users/hungvu/Desktop/E7130/e1/output/t3_data.csv" ;
+        String csvPath = "" ;
         writeCSV(csvPath,lstOfDataRow);
     }
 
