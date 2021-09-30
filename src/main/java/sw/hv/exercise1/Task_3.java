@@ -11,6 +11,7 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
+import sun.lwawt.macosx.CSystemTray;
 import sw.hv.exercise1.model.Task3Iperf;
 import sw.hv.util.Utils;
 
@@ -29,18 +30,96 @@ public class Task_3 {
         String filePath = Utils.readInput();
         boolean isValid = Utils.isValidFile(filePath);
         if (isValid) {
-            processFile(filePath);
+            processFileForInterval(filePath);
         }
     }
 
-    private void processFile(String filePath) throws IOException {
+    public void processFileForInterval(String filePath) throws Exception {
+        try {
+            InputStream is = new FileInputStream(filePath);
+            Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+            JsonStreamParser parser = new JsonStreamParser(reader);
+            // index for total run count (number of intervals)
+            int totalIndex = 1;
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd ");
+            SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
+
+            // declare obj we need to get
+            int numberOfRetransmission = 0;
+            List<Task3Iperf> lstOfDataRow = new ArrayList<Task3Iperf>();
+
+            while (parser.hasNext()) {
+                JsonElement element = parser.next();
+
+                if (element.isJsonObject()) {
+                    JsonObject obj = element.getAsJsonObject();
+
+                    // getting "intervals" array
+                    JsonArray intervalArr = obj.get("intervals").getAsJsonArray();
+
+                    if (!intervalArr.isEmpty()){
+                        // index for each run in 1 interval
+                        int intervalIndex = 1;
+                        Task3Iperf task3Model = new Task3Iperf();
+                        // getting very first Start time of each interval in Epoch timestamp
+                        double timeOfStart = obj.get("start").getAsJsonObject()
+                                .get("timestamp").getAsJsonObject()
+                                .get("timesecs").getAsDouble();
+
+                        // timestamp and time of start each run
+                        task3Model.setEachRunTimestamp((long)timeOfStart);
+
+                        // getting sum_sent obj
+                        JsonObject sumObj = obj.get("end").getAsJsonObject().get("sum_sent").getAsJsonObject();
+
+                        // format date time for each run
+                        Date eachRunTime = new Date((long)(timeOfStart * 1000));
+                        String formattedDate = dateFormatter.format(eachRunTime);
+                        String formattedTime = timeFormatter.format(eachRunTime);
+                        task3Model.setDateOfStart(formattedDate);
+                        task3Model.setTimeOfStart(formattedTime);
+
+                        // total bytes transferred each run
+                        long totalByteTransferred = sumObj.get("bytes").getAsLong();
+                        task3Model.setTotalBytesTransferred(totalByteTransferred);
+
+                        // bitrate
+                        double bitrate = sumObj.get("bits_per_second").getAsDouble();
+                        task3Model.setBitrate(bitrate);
+                        // Add up to get total bitrate
+                        totalBitrate += bitrate;
+                        bitrateArrList.add(bitrate);
+
+                        // TCP retransmission
+                        numberOfRetransmission = sumObj.get("retransmits").getAsInt();
+                        task3Model.setNumberOfRetransmission(numberOfRetransmission);
+                        lstOfDataRow.add(task3Model);
+
+    //                    System.out.println("*****" + totalIndex);
+                        totalIndex++;
+                    }
+                }
+            }
+
+            // Write to csv
+            String home = System.getProperty("user.home");
+            String csvPath = home + "/t3_data.csv" ;
+            writeCSV(csvPath,lstOfDataRow);
+            bitrateCalculation();
+    } catch (Exception e){
+            throw new Exception(e);
+        }
+    }
+
+    // This is what I misunderstand the requirements, calculate with data of every seconds (1 interval has 10 seconds for the test)
+    private void processFileForEverySecond(String filePath) throws IOException {
         InputStream is = new FileInputStream(filePath);
         Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
         JsonStreamParser parser = new JsonStreamParser(reader);
         // index for total run count (number of intervals)
         int totalIndex = 1;
         SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd ");
-        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss.SSS");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
 
         // declare obj we need to get
         int numberOfRetransmission = 0;

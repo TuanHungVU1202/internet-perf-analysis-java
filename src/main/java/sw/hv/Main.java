@@ -25,7 +25,7 @@ public class Main {
                 }
             }
         } catch (Exception e){
-            throw new Exception("Check again carefully. Please enter the Task number and file path", new Exception(e.toString()));
+            throw new Exception("Check again carefully. Please enter the Task number and file path", e.getCause());
         }
     }
 }
