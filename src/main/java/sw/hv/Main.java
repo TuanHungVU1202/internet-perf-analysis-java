@@ -13,18 +13,14 @@ public class Main {
             while (true) {
                 int task = Utils.chooseTask();
                 if (task == 2) {
-                    System.out.println("case 2");
+                    System.out.println("Running Task 2");
                     Task_2 t2 = new Task_2();
-                    // path: /Users/hungvu/Desktop/E7130/e1/output/t2_pingresult.txt
                     t2.parseFile();
                     break;
                 } else if (task == 3) {
-                    System.out.println("case 3");
+                    System.out.println("Running Task 3");
                     Task_3 t3 = new Task_3();
-                    // path: /Users/hungvu/Desktop/E7130/e1/from_linux/t3_result.json
-//                    t3.parseFile();
-                    t3.processFileForInterval("/Users/hungvu/Desktop/E7130/e1/from_linux/t3_result.json");
-
+                    t3.parseFile();
                     break;
                 } else {
                     System.out.println("There are only 2 available tasks: 2 and 3. Please choose again");

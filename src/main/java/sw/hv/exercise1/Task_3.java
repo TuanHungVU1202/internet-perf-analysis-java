@@ -12,7 +12,6 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
-import sun.lwawt.macosx.CSystemTray;
 import sw.hv.exercise1.model.Task3Iperf;
 import sw.hv.util.Utils;
 
@@ -27,13 +26,13 @@ public class Task_3 {
     double totalBitrate = 0;
     ArrayList<Double> bitrateArrList = new ArrayList<>();
 
-//    public void parseFile () throws Exception {
-//        String filePath = Utils.readInput();
-//        boolean isValid = Utils.isValidFile(filePath);
-//        if (isValid) {
-//            processFileForInterval(filePath);
-//        }
-//    }
+    public void parseFile () throws Exception {
+        String filePath = Utils.readInput();
+        boolean isValid = Utils.isValidFile(filePath);
+        if (isValid) {
+            processFileForInterval(filePath);
+        }
+    }
 
     public void processFileForInterval(String filePath) throws Exception {
         try {

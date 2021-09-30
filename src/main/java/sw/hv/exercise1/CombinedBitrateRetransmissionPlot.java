@@ -60,17 +60,17 @@ public class CombinedBitrateRetransmissionPlot extends ApplicationFrame {
             Date timestamp = new Date((listData.get(i).getEachRunTimestamp() * 1000));
             String formattedTime = timeFormatter.format(timestamp);
             sBitrateNormal.add(Double.parseDouble(formattedTime), listData.get(i).getBitrate()*Math.pow(10,-6));
-            System.out.println("----: "+ formattedTime + " " + listData.get(i).getBitrate()*Math.pow(10,-6));
+//            System.out.println("----: "+ formattedTime + " " + listData.get(i).getBitrate()*Math.pow(10,-6));
         }
 
         for (int i= listData.size()/2; i < listData.size(); i++){
             Date timestamp = new Date((listData.get(i).getEachRunTimestamp() * 1000));
             String formattedTime = timeFormatter.format(timestamp);
             sBitrateReverse.add(Double.parseDouble(formattedTime), listData.get(i).getBitrate()*Math.pow(10,-6));
-            System.out.println("----: "+ formattedTime + " " + listData.get(i).getBitrate());
+//            System.out.println("----: "+ formattedTime + " " + listData.get(i).getBitrate());
         }
 
-        System.out.println(listData.get(listData.size()/2 -1).getBitrate());
+//        System.out.println(listData.get(listData.size()/2 -1).getBitrate());
 
         final XYSeriesCollection collection = new XYSeriesCollection();
         collection.addSeries(sBitrateNormal);
@@ -89,14 +89,14 @@ public class CombinedBitrateRetransmissionPlot extends ApplicationFrame {
             Date timestamp = new Date((listData.get(i).getEachRunTimestamp() * 1000));
             String formattedTime = timeFormatter.format(timestamp);
             sRetrNormal.add(Double.parseDouble(formattedTime), listData.get(i).getNumberOfRetransmission());
-            System.out.println("----: "+ formattedTime + " " + listData.get(i).getNumberOfRetransmission());
+//            System.out.println("----: "+ formattedTime + " " + listData.get(i).getNumberOfRetransmission());
         }
 
         for (int i= listData.size()/2; i < listData.size(); i++){
             Date timestamp = new Date((listData.get(i).getEachRunTimestamp() * 1000));
             String formattedTime = timeFormatter.format(timestamp);
             sRetrReverse.add(Double.parseDouble(formattedTime), listData.get(i).getNumberOfRetransmission());
-            System.out.println("----: "+ formattedTime + " "+ listData.get(i).getNumberOfRetransmission());
+//            System.out.println("----: "+ formattedTime + " "+ listData.get(i).getNumberOfRetransmission());
         }
 
         final XYSeriesCollection collection = new XYSeriesCollection();
