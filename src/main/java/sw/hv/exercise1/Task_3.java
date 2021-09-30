@@ -1,6 +1,7 @@
 package sw.hv.exercise1;
 
 import com.google.gson.*;
+import org.jfree.ui.RefineryUtilities;
 import org.json.JSONObject;
 
 import org.supercsv.cellprocessor.ParseDouble;
@@ -26,13 +27,13 @@ public class Task_3 {
     double totalBitrate = 0;
     ArrayList<Double> bitrateArrList = new ArrayList<>();
 
-    public void parseFile () throws Exception {
-        String filePath = Utils.readInput();
-        boolean isValid = Utils.isValidFile(filePath);
-        if (isValid) {
-            processFileForInterval(filePath);
-        }
-    }
+//    public void parseFile () throws Exception {
+//        String filePath = Utils.readInput();
+//        boolean isValid = Utils.isValidFile(filePath);
+//        if (isValid) {
+//            processFileForInterval(filePath);
+//        }
+//    }
 
     public void processFileForInterval(String filePath) throws Exception {
         try {
@@ -106,6 +107,23 @@ public class Task_3 {
             String csvPath = home + "/t3_data.csv" ;
             writeCSV(csvPath,lstOfDataRow);
             bitrateCalculation();
+
+            // Plot bitrate grpah
+            final CombinedBitrateRetransmissionPlot bitratePlot = new CombinedBitrateRetransmissionPlot("BitratePlot");
+            bitratePlot.setListData(lstOfDataRow);
+            bitratePlot.plotBitrateChart();
+            bitratePlot.pack();
+            RefineryUtilities.centerFrameOnScreen(bitratePlot);
+            bitratePlot.setVisible(true);
+
+            // Plot retransmission grpah
+            final CombinedBitrateRetransmissionPlot retransmissionPlot = new CombinedBitrateRetransmissionPlot("RetransmissionPlot");
+            retransmissionPlot.setListData(lstOfDataRow);
+            retransmissionPlot.plotRetrChart();
+            retransmissionPlot.pack();
+            RefineryUtilities.centerFrameOnScreen(retransmissionPlot);
+            retransmissionPlot.setVisible(true);
+
     } catch (Exception e){
             throw new Exception(e);
         }

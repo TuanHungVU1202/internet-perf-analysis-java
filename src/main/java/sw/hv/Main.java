@@ -1,5 +1,7 @@
 package sw.hv;
 
+import org.jfree.ui.RefineryUtilities;
+import sw.hv.exercise1.CombinedBitrateRetransmissionPlot;
 import sw.hv.exercise1.Task_2;
 import sw.hv.exercise1.Task_3;
 import sw.hv.util.Utils;
@@ -13,12 +15,16 @@ public class Main {
                 if (task == 2) {
                     System.out.println("case 2");
                     Task_2 t2 = new Task_2();
+                    // path: /Users/hungvu/Desktop/E7130/e1/output/t2_pingresult.txt
                     t2.parseFile();
                     break;
                 } else if (task == 3) {
                     System.out.println("case 3");
                     Task_3 t3 = new Task_3();
-                    t3.parseFile();
+                    // path: /Users/hungvu/Desktop/E7130/e1/from_linux/t3_result.json
+//                    t3.parseFile();
+                    t3.processFileForInterval("/Users/hungvu/Desktop/E7130/e1/from_linux/t3_result.json");
+
                     break;
                 } else {
                     System.out.println("There are only 2 available tasks: 2 and 3. Please choose again");
