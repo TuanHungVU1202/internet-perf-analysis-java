@@ -13,10 +13,10 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
-import sw.hv.exercise1.model.Task3Iperf;
+import sw.hv.exercise1.model.E1_Task3Iperf;
 
 public class CombinedBitrateRetransmissionPlot extends ApplicationFrame {
-    private List<Task3Iperf> listData;
+    private List<E1_Task3Iperf> listData;
     SimpleDateFormat timeFormatter = new SimpleDateFormat("HH.mm");
 
     public CombinedBitrateRetransmissionPlot(String title) {
@@ -106,11 +106,11 @@ public class CombinedBitrateRetransmissionPlot extends ApplicationFrame {
 
     }
 
-    public List<Task3Iperf> getListData() {
+    public List<E1_Task3Iperf> getListData() {
         return listData;
     }
 
-    public void setListData(List<Task3Iperf> listData) {
+    public void setListData(List<E1_Task3Iperf> listData) {
         this.listData = listData;
     }
 }

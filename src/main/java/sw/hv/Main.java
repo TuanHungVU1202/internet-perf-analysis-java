@@ -1,9 +1,7 @@
 package sw.hv;
 
-import org.jfree.ui.RefineryUtilities;
-import sw.hv.exercise1.CombinedBitrateRetransmissionPlot;
-import sw.hv.exercise1.Task_2;
-import sw.hv.exercise1.Task_3;
+import sw.hv.exercise1.E1_Task2;
+import sw.hv.exercise1.E1_Task3;
 import sw.hv.util.Utils;
 
 public class Main {
@@ -11,19 +9,34 @@ public class Main {
     public static void main(String[] args) throws Exception {
         try {
             while (true) {
-                int task = Utils.chooseTask();
-                if (task == 2) {
-                    System.out.println("Running Task 2");
-                    Task_2 t2 = new Task_2();
-                    t2.parseFile();
+                String[] exAndTask = Utils.chooseTask();
+                // Exercise 1
+                if (exAndTask[0].equals("1")) {
+                    if (exAndTask[1].equals("2")){
+                        System.out.println("Running exercise 1 - Task 2");
+                        E1_Task2 t2 = new E1_Task2();
+                        // path: /Users/hungvu/Desktop/E7130/e1/output/t2_pingresult.txt
+                        t2.parseFile();
+                    }
+                    if (exAndTask[1].equals("3")){
+                        System.out.println("Running exercise 1 - Task 3");
+                        E1_Task3 t3 = new E1_Task3();
+                        // path: /Users/hungvu/Desktop/E7130/e1/from_linux/t3_result.json
+                        t3.parseFile();
+                    }
                     break;
-                } else if (task == 3) {
-                    System.out.println("Running Task 3");
-                    Task_3 t3 = new Task_3();
-                    t3.parseFile();
+                }
+                // Exercise 2
+                else if (exAndTask[0].equals("2")) {
+                    if(exAndTask[1].equals("1")){
+                        System.out.println("Running exercise 2 - Task 1");
+                    }
+                    if(exAndTask[1].equals("2")){
+                        System.out.println("Running exercise 2 - Task 2");
+                    }
                     break;
                 } else {
-                    System.out.println("There are only 2 available tasks: 2 and 3. Please choose again");
+                    System.out.println("Check the available task for each exercise, input them separated with comma and choose again");
                 }
             }
         } catch (Exception e){

@@ -5,15 +5,16 @@ import java.io.FileNotFoundException;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class Utils {
 
-    public static int chooseTask(){
+    public static String[] chooseTask(){
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter task number: ");
-        return sc.nextInt();
+        System.out.print("Enter exercise, task number (separated by comma): ");
+        return sc.next().split(",");
     }
 
     public static String readInput() {

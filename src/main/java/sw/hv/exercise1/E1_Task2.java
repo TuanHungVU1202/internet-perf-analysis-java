@@ -6,7 +6,7 @@ import java.io.File;
 import java.sql.Array;
 import java.util.*;
 
-public class Task_2 {
+public class E1_Task2 {
     String START_LOG = "Start";
     String SUCCESSFUL_ROUNDTRIP = "time=";
     int hourNumber = 1;

@@ -12,7 +12,7 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
-import sw.hv.exercise1.model.Task3Iperf;
+import sw.hv.exercise1.model.E1_Task3Iperf;
 import sw.hv.util.Utils;
 
 import java.io.*;
@@ -20,7 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Task_3 {
+public class E1_Task3 {
     JSONObject jsoObject = new JSONObject();
     // object for calculation
     double totalBitrate = 0;
@@ -46,7 +46,7 @@ public class Task_3 {
 
             // declare obj we need to get
             int numberOfRetransmission = 0;
-            List<Task3Iperf> lstOfDataRow = new ArrayList<Task3Iperf>();
+            List<E1_Task3Iperf> lstOfDataRow = new ArrayList<E1_Task3Iperf>();
 
             while (parser.hasNext()) {
                 JsonElement element = parser.next();
@@ -60,7 +60,7 @@ public class Task_3 {
                     if (!intervalArr.isEmpty()){
                         // index for each run in 1 interval
                         int intervalIndex = 1;
-                        Task3Iperf task3Model = new Task3Iperf();
+                        E1_Task3Iperf task3Model = new E1_Task3Iperf();
                         // getting very first Start time of each interval in Epoch timestamp
                         double timeOfStart = obj.get("start").getAsJsonObject()
                                 .get("timestamp").getAsJsonObject()
@@ -141,7 +141,7 @@ public class Task_3 {
         // declare obj we need to get
         int numberOfRetransmission = 0;
         double secondsDiffEachRun = 0D;
-        List<Task3Iperf> lstOfDataRow = new ArrayList<Task3Iperf>();
+        List<E1_Task3Iperf> lstOfDataRow = new ArrayList<E1_Task3Iperf>();
 
 
 
@@ -170,7 +170,7 @@ public class Task_3 {
                     Date timeDateOfStart = new Date((long)(timeOfStart * 1000));
 
                     for (JsonElement intervalArrElement : intervalArr){
-                        Task3Iperf task3Model = new Task3Iperf();
+                        E1_Task3Iperf task3Model = new E1_Task3Iperf();
                         // getting sum obj
                         JsonObject sumObj = intervalArrElement.getAsJsonObject().get("sum").getAsJsonObject();
 
@@ -221,7 +221,7 @@ public class Task_3 {
         bitrateCalculation();
     }
 
-    private void writeCSV (String csvFileName, List<Task3Iperf> lstOfDataRow){
+    private void writeCSV (String csvFileName, List<E1_Task3Iperf> lstOfDataRow){
         ICsvBeanWriter beanWriter = null;
         CellProcessor[] processors = new CellProcessor[] {
                 new ParseLong(), //eachRunTimestamp
@@ -238,7 +238,7 @@ public class Task_3 {
             String[] header = {"eachRunTimestamp", "dateOfStart", "timeOfStart", "totalBytesTransferred", "bitrate","numberOfRetransmission"};
             beanWriter.writeHeader(header);
 
-            for (Task3Iperf row : lstOfDataRow) {
+            for (E1_Task3Iperf row : lstOfDataRow) {
                 beanWriter.write(row, header, processors);
             }
 

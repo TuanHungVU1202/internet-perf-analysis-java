@@ -1,6 +1,6 @@
 package sw.hv.exercise1.model;
 
-public class Task3Iperf {
+public class E1_Task3Iperf {
     private long eachRunTimestamp;
     private String dateOfStart;
     private String timeOfStart;
