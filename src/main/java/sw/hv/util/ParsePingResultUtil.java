@@ -7,6 +7,16 @@ public class ParsePingResultUtil {
     public final static String SUCCESSFUL_PACKET = "time=";
     public final static String TOTAL_PACKET_STAT = "packets";
 
+    // Server
+    public final static String SERVER_C = "PING c.nsset.be";
+    public final static String SERVER_Y = "PING y.nsset.be";
+    public final static String SERVER_Z = "PING z.nsset.be";
+    public final static String SERVER_PNA = "PING pna-es.ark.caida.org";
+    public final static String SERVER_SCL = "PING scl-cl.ark.caida.org";
+    public final static String SERVER_HLZ = "PING hlz-nz.ark.caida.org";
+    public final static String SERVER_OK1 = "PING iperf.netlab.hut.fi";
+    public final static String SERVER_SGP1 = "PING sgp1.iperf.comnet-student.eu";
+
     // example [1633731901.864601, 64, ., ., ., 195.148.124.36, 1, 60, 0.377]
     // Get timestamp of each request
     public static long getTimeStamp(List<String> extractedLst){
