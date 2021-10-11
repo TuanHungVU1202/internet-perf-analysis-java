@@ -1,9 +1,8 @@
 package sw.hv.exercise1;
 
-import sw.hv.util.Utils;
+import sw.hv.util.GeneralHelper;
 
 import java.io.File;
-import java.sql.Array;
 import java.util.*;
 
 public class E1_Task2 {
@@ -14,8 +13,8 @@ public class E1_Task2 {
     int NUMBER_OF_ROUND = 6;
 
     public void parseFile () throws Exception {
-        String filePath = Utils.readInput();
-        boolean isValid = Utils.isValidFile(filePath);
+        String filePath = GeneralHelper.readInput();
+        boolean isValid = GeneralHelper.isValidFile(filePath);
         if (isValid) {
             processFile(filePath);
         }
@@ -51,7 +50,7 @@ public class E1_Task2 {
                     if (line.contains(SUCCESSFUL_ROUNDTRIP)){
 
                         counterSuccessful++;
-                        List<String> tmpList = Utils.extractNumberFromString(line);
+                        List<String> tmpList = GeneralHelper.extractNumberFromString(line);
                         extractedRtt = Double.parseDouble(tmpList.get(4));
 
                         // add extracted RTT to the array to sort and find median later

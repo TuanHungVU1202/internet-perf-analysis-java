@@ -2,14 +2,15 @@ package sw.hv;
 
 import sw.hv.exercise1.E1_Task2;
 import sw.hv.exercise1.E1_Task3;
-import sw.hv.util.Utils;
+import sw.hv.exercise2.E2_Task1;
+import sw.hv.util.GeneralHelper;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
         try {
             while (true) {
-                String[] exAndTask = Utils.chooseTask();
+                String[] exAndTask = GeneralHelper.chooseTask();
                 // Exercise 1
                 if (exAndTask[0].equals("1")) {
                     if (exAndTask[1].equals("2")){
@@ -30,6 +31,8 @@ public class Main {
                 else if (exAndTask[0].equals("2")) {
                     if(exAndTask[1].equals("1")){
                         System.out.println("Running exercise 2 - Task 1");
+                        E2_Task1 t1 = new E2_Task1();
+                        t1.parseFile();
                     }
                     if(exAndTask[1].equals("2")){
                         System.out.println("Running exercise 2 - Task 2");
@@ -40,7 +43,7 @@ public class Main {
                 }
             }
         } catch (Exception e){
-            throw new Exception("Check again carefully. Please enter the Task number and file path", e.getCause());
+            throw new Exception("Check again carefully. Please enter the Task number and file path", e);
         }
     }
 }

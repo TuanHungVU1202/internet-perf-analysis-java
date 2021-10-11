@@ -13,7 +13,7 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 import sw.hv.exercise1.model.E1_Task3Iperf;
-import sw.hv.util.Utils;
+import sw.hv.util.GeneralHelper;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -27,8 +27,8 @@ public class E1_Task3 {
     ArrayList<Double> bitrateArrList = new ArrayList<>();
 
     public void parseFile () throws Exception {
-        String filePath = Utils.readInput();
-        boolean isValid = Utils.isValidFile(filePath);
+        String filePath = GeneralHelper.readInput();
+        boolean isValid = GeneralHelper.isValidFile(filePath);
         if (isValid) {
             processFileForInterval(filePath);
         }

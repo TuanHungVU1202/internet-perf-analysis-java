@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
-public class Utils {
+public class GeneralHelper {
 
     public static String[] chooseTask(){
         Scanner sc = new Scanner(System.in);
