@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class ThroughputUtil {
+public class ParseCurlUtil {
 
     public static HashMap<String, Double> bitrateCalculation (ArrayList<Double> bitrateArrList) {
         HashMap<String, Double> bitrateMap = new HashMap<>();
@@ -40,5 +40,15 @@ public class ThroughputUtil {
 
         bitrateMap.put("Average deviation", aveDeviation);
         return bitrateMap;
+    }
+
+    public static double getDownloadSpeed (String[] splittedArr){
+        // currently download speed is at the end of the line
+        return Double.parseDouble(splittedArr[splittedArr.length - 1]);
+    }
+
+    public static double getDelayTime (String[] splittedArr){
+        // currently delay at index 0
+        return Double.parseDouble(splittedArr[0]);
     }
 }

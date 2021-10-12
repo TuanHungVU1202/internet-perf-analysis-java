@@ -7,20 +7,16 @@ import com.google.gson.JsonStreamParser;
 import org.jfree.ui.RefineryUtilities;
 import sw.hv.exercise1.CombinedBitrateRetransmissionPlot;
 import sw.hv.exercise1.model.E1_Task3Iperf;
-import sw.hv.util.ThroughputUtil;
+import sw.hv.util.ParseCurlUtil;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class E2_Task2 {
+    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd ");
+    SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
     public void parseFile () throws Exception {
 //        try {
 //            String filePath = GeneralHelper.readInput();
@@ -31,7 +27,8 @@ public class E2_Task2 {
 //        } catch (Exception e){
 //            throw new Exception(e);
 //        }
-        processIperf("Test");
+//        processIperf("Test");
+        processCurl("");
     }
 
     private void processIperf(String filePath) throws Exception {
@@ -43,8 +40,6 @@ public class E2_Task2 {
             JsonStreamParser parser = new JsonStreamParser(reader);
             // index for total run count (number of intervals)
             int totalIndex = 1;
-            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd ");
-            SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss");
 
             // declare obj we need to get
             List<E1_Task3Iperf> lstOfDataRow = new ArrayList<E1_Task3Iperf>();
@@ -80,15 +75,13 @@ public class E2_Task2 {
                         bitrateArrList.add(bitrate);
 
                         System.out.println("Date time: " + formattedDate + " " + formattedTime + " " + "Bitrate: " + bitrate);
-
-                        //                    System.out.println("*****" + totalIndex);
                         totalIndex++;
                     }
                 }
             }
 
 
-            HashMap<String, Double> resultMap = ThroughputUtil.bitrateCalculation(bitrateArrList);
+            HashMap<String, Double> resultMap = ParseCurlUtil.bitrateCalculation(bitrateArrList);
             System.out.println(resultMap);
 
             // Plot bitrate grpah
@@ -98,6 +91,58 @@ public class E2_Task2 {
             bitratePlot.pack();
             RefineryUtilities.centerFrameOnScreen(bitratePlot);
             bitratePlot.setVisible(true);
+
+        } catch (Exception e){
+            throw new Exception(e);
+        }
+    }
+
+    private void processCurl (String filePath) throws Exception {
+        // current file created timestamp = 1633730710
+        //TODO: change start time here
+        long timeOfStart = 1633730710;
+        Date dateAndTime = new Date((timeOfStart * 1000));
+        String formattedDate = dateFormatter.format(dateAndTime);
+        String formattedTime = timeFormatter.format(dateAndTime);
+        //TODO: CHANGE SERVER HERE
+//        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_ok1_curl";
+        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_curl";
+        File file = new File(testPath);
+        ArrayList<Double> totalDlSpeedArrLst = new ArrayList<>();
+        ArrayList<Double> dlSpeedAtSpecificTimeArrLst = new ArrayList<>();
+
+        // Initial index to get the value at minute 15 since the test start at minute 5, run every 10 minutes
+        int index = 1;
+        try {
+            Scanner scanner = new Scanner(file);
+
+            while (scanner.hasNextLine()){
+                String line = scanner.nextLine();
+
+                // Data array splitting by ,
+                String[] dataArr = line.split(",");
+
+                // Download Speed for TASK 2
+                double downloadSpeed = ParseCurlUtil.getDownloadSpeed(dataArr);
+                // Convert from Bytes per second to Megabits per seconds
+                totalDlSpeedArrLst.add(downloadSpeed*8 * Math.pow(10, -6));
+            }
+
+            // Get every value at specific minute
+            // Here is at minute 15 every hour
+            while (index <= totalDlSpeedArrLst.size()){
+                dlSpeedAtSpecificTimeArrLst.add(totalDlSpeedArrLst.get(index));
+                // run once an hour, get batch of 6 because test starts from minute 5
+                index = index + 6;
+            }
+
+//            System.out.println(dlSpeedAtSpecificTimeArrLst);
+            // Calculate download speed for TASK 2
+            if (!totalDlSpeedArrLst.isEmpty()) {
+                Collections.sort(dlSpeedAtSpecificTimeArrLst);
+                System.out.println("Calculating DOWNLOAD Speed, run once an hour starts at " + formattedDate + " " + formattedTime);
+                System.out.println(ParseCurlUtil.bitrateCalculation(dlSpeedAtSpecificTimeArrLst));
+            }
 
         } catch (Exception e){
             throw new Exception(e);

@@ -12,18 +12,20 @@ import java.util.Scanner;
 
 public class E2_Task1 {
     public void parseFile () throws Exception {
-//        try {
-//            String filePath = GeneralHelper.readInput();
-//            boolean isValid = GeneralHelper.isValidFile(filePath);
-//            if (isValid) {
-//                ParsePingResultUtil.parsePingResult(filePath);
-//            }
-//        } catch (Exception e){
-//            throw new Exception(e);
-//        }
+        try {
+            String filePath = GeneralHelper.readInput();
+            boolean isValid = GeneralHelper.isValidFile(filePath);
+            if (isValid) {
+//                processPingResult(filePath);
+//                processDigResult (filePath);
+//                processCurlResult(filePath);
+            }
+        } catch (Exception e){
+            throw new Exception(e);
+        }
 //        processPingResult("Test");
 //        processDigResult ("test");
-        processCurlResult("Test");
+//        processCurlResult("Test");
     }
 
     // Parse ping result
@@ -125,11 +127,11 @@ public class E2_Task1 {
     }
 
     // Parse curl result
-    private void processCurlResult (String filePath) throws Exception{
+    public void processCurlResult (String filePath) throws Exception{
         //TODO: CHANGE SERVER HERE
 //        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_ok1_curl";
-        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_curl";
-        File file = new File(testPath);
+//        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_curl";
+        File file = new File(filePath);
         ArrayList<Double> totalTimeArrLst = new ArrayList<>();
         ArrayList<Double> totalDlSpeedArrLst = new ArrayList<>();
 
@@ -149,9 +151,9 @@ public class E2_Task1 {
                 totalDelay += delayTime;
 
                 // Download Speed for TASK 2
-                double downloadSpeed = Double.parseDouble(totalDelayArr[2]);
-                totalDlSpeedArrLst.add(downloadSpeed);
-                totalSpeed +=downloadSpeed;
+//                double downloadSpeed = Double.parseDouble(totalDelayArr[2]);
+//                totalDlSpeedArrLst.add(downloadSpeed);
+//                totalSpeed +=downloadSpeed;
 
                 totalRequest++;
             }
@@ -165,13 +167,12 @@ public class E2_Task1 {
                 System.out.println("CURL -Delay spread= " + calDelaySpread(totalTimeArrLst, totalRequest));
             }
 
-            // Calculate download speed for TASK 2
-            if (!totalDlSpeedArrLst.isEmpty()) {
-                Collections.sort(totalDlSpeedArrLst);
-                System.out.println("\nCalculating DOWNLOAD Speed");
-                System.out.println("CURL - Median DL= " + calMedianDelay(totalDlSpeedArrLst, totalRequest));
-                System.out.println("CURL - Mean DL= " + calMeanDelay(totalSpeed, totalRequest));
-            }
+//            if (!totalDlSpeedArrLst.isEmpty()) {
+//                Collections.sort(totalDlSpeedArrLst);
+//                System.out.println("\nCalculating DOWNLOAD Speed");
+//                System.out.println("CURL - Median DL= " + calMedianDelay(totalDlSpeedArrLst, totalRequest));
+//                System.out.println("CURL - Mean DL= " + calMeanDelay(totalSpeed, totalRequest));
+//            }
 
         } catch (Exception e){
             throw new Exception(e);
