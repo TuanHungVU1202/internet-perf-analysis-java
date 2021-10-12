@@ -3,6 +3,7 @@ package sw.hv;
 import sw.hv.exercise1.E1_Task2;
 import sw.hv.exercise1.E1_Task3;
 import sw.hv.exercise2.E2_Task1;
+import sw.hv.exercise2.E2_Task2;
 import sw.hv.util.GeneralHelper;
 
 public class Main {
@@ -36,6 +37,8 @@ public class Main {
                     }
                     if(exAndTask[1].equals("2")){
                         System.out.println("Running exercise 2 - Task 2");
+                        E2_Task2 t2 = new E2_Task2();
+                        t2.parseFile();
                     }
                     break;
                 } else {

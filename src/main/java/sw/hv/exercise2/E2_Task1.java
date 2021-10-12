@@ -11,10 +11,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class E2_Task1 {
-
-
-
-
     public void parseFile () throws Exception {
 //        try {
 //            String filePath = GeneralHelper.readInput();
@@ -32,7 +28,7 @@ public class E2_Task1 {
 
     // Parse ping result
     private void processPingResult (String filePath) throws Exception {
-        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/nameserver_ping";
+        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_ping";
         File file = new File(testPath);
         ArrayList<Double> pingRttArrLst = new ArrayList<>();
         int totalPingRequest = 0;
@@ -47,7 +43,7 @@ public class E2_Task1 {
                 String line = scanner.nextLine();
 
                 //TODO: CHANGE SERVER HERE
-                if (line.contains(ParsePingResultUtil.SERVER_C)){
+                if (line.contains(ParsePingResultUtil.SERVER_SGP1)){
                     sameServerFlag = true;
                 }
                 // Get all information of successful requests
@@ -100,7 +96,7 @@ public class E2_Task1 {
                 String line = scanner.nextLine();
 
                 // TODO: CHANGE SERVER HERE
-                if (line.contains(ParseDigResultUtil.SERVER_1) && line.contains(ParseDigResultUtil.DIG_INDICATOR)){
+                if (line.contains(ParseDigResultUtil.SERVER_Z) && line.contains(ParseDigResultUtil.DIG_INDICATOR)){
                     sameServerFlag = true;
                     totalRequest++;
                 }
@@ -131,8 +127,8 @@ public class E2_Task1 {
     // Parse curl result
     private void processCurlResult (String filePath) throws Exception{
         //TODO: CHANGE SERVER HERE
-        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_ok1_curl";
-//        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_curl";
+//        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_ok1_curl";
+        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_curl";
         File file = new File(testPath);
         ArrayList<Double> totalTimeArrLst = new ArrayList<>();
         ArrayList<Double> totalDlSpeedArrLst = new ArrayList<>();
