@@ -51,4 +51,16 @@ public class ParseCurlUtil {
         // currently delay at index 0
         return Double.parseDouble(splittedArr[0]);
     }
+
+    public static ArrayList<Double> getDlSpeedAtSpecificTime (int atIndex, ArrayList<Double> totalDlSpeedArrLst){
+        // Get every value at specific minute
+        // Here is at minute 15 every hour
+        ArrayList<Double> dlSpeedAtSpecificTimeArrLst = new ArrayList<>();
+        while (atIndex <= totalDlSpeedArrLst.size()){
+            dlSpeedAtSpecificTimeArrLst.add(totalDlSpeedArrLst.get(atIndex));
+            // run once an hour, get batch of 6 because test starts from minute 5
+            atIndex = atIndex + 6;
+        }
+        return dlSpeedAtSpecificTimeArrLst;
+    }
 }

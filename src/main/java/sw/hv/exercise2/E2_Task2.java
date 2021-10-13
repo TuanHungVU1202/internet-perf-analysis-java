@@ -99,17 +99,15 @@ public class E2_Task2 {
 
     private void processCurl (String filePath) throws Exception {
         // current file created timestamp = 1633730710
-        //TODO: change start time here
-        long timeOfStart = 1633730710;
-        Date dateAndTime = new Date((timeOfStart * 1000));
-        String formattedDate = dateFormatter.format(dateAndTime);
-        String formattedTime = timeFormatter.format(dateAndTime);
+//        Date dateAndTime = new Date((timeOfStart * 1000));
+//        String formattedDate = dateFormatter.format(dateAndTime);
+//        String formattedTime = timeFormatter.format(dateAndTime);
         //TODO: CHANGE SERVER HERE
 //        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_ok1_curl";
-        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_curl";
+//        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_curl";
+        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_e2/out/t2iperf_sgp1_curl";
         File file = new File(testPath);
         ArrayList<Double> totalDlSpeedArrLst = new ArrayList<>();
-        ArrayList<Double> dlSpeedAtSpecificTimeArrLst = new ArrayList<>();
 
         // Initial index to get the value at minute 15 since the test start at minute 5, run every 10 minutes
         int index = 1;
@@ -128,20 +126,13 @@ public class E2_Task2 {
                 totalDlSpeedArrLst.add(downloadSpeed*8 * Math.pow(10, -6));
             }
 
-            // Get every value at specific minute
-            // Here is at minute 15 every hour
-            while (index <= totalDlSpeedArrLst.size()){
-                dlSpeedAtSpecificTimeArrLst.add(totalDlSpeedArrLst.get(index));
-                // run once an hour, get batch of 6 because test starts from minute 5
-                index = index + 6;
-            }
+//            ArrayList<Double> dlSpeedAtSpecificTimeArrLst = ParseCurlUtil.getDlSpeedAtSpecificTime(index, totalDlSpeedArrLst);
 
-//            System.out.println(dlSpeedAtSpecificTimeArrLst);
             // Calculate download speed for TASK 2
             if (!totalDlSpeedArrLst.isEmpty()) {
-                Collections.sort(dlSpeedAtSpecificTimeArrLst);
-                System.out.println("Calculating DOWNLOAD Speed, run once an hour starts at " + formattedDate + " " + formattedTime);
-                System.out.println(ParseCurlUtil.bitrateCalculation(dlSpeedAtSpecificTimeArrLst));
+                Collections.sort(totalDlSpeedArrLst);
+//                System.out.println("Calculating DOWNLOAD Speed, run once an hour starts at " + formattedDate + " " + formattedTime);
+                System.out.println(ParseCurlUtil.bitrateCalculation(totalDlSpeedArrLst));
             }
 
         } catch (Exception e){

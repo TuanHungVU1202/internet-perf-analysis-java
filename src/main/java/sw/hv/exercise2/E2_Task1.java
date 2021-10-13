@@ -133,7 +133,6 @@ public class E2_Task1 {
 //        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_curl";
         File file = new File(filePath);
         ArrayList<Double> totalTimeArrLst = new ArrayList<>();
-        ArrayList<Double> totalDlSpeedArrLst = new ArrayList<>();
 
         try {
             Scanner scanner = new Scanner(file);
@@ -150,11 +149,6 @@ public class E2_Task1 {
                 totalTimeArrLst.add(delayTime);
                 totalDelay += delayTime;
 
-                // Download Speed for TASK 2
-//                double downloadSpeed = Double.parseDouble(totalDelayArr[2]);
-//                totalDlSpeedArrLst.add(downloadSpeed);
-//                totalSpeed +=downloadSpeed;
-
                 totalRequest++;
             }
 
@@ -166,13 +160,6 @@ public class E2_Task1 {
                 System.out.println("CURL -Lost ratio= " + calLosttRatio(totalRequest, totalRequest));
                 System.out.println("CURL -Delay spread= " + calDelaySpread(totalTimeArrLst, totalRequest));
             }
-
-//            if (!totalDlSpeedArrLst.isEmpty()) {
-//                Collections.sort(totalDlSpeedArrLst);
-//                System.out.println("\nCalculating DOWNLOAD Speed");
-//                System.out.println("CURL - Median DL= " + calMedianDelay(totalDlSpeedArrLst, totalRequest));
-//                System.out.println("CURL - Mean DL= " + calMeanDelay(totalSpeed, totalRequest));
-//            }
 
         } catch (Exception e){
             throw new Exception(e);
