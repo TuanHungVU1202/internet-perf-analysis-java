@@ -27,7 +27,7 @@ public class E2_Task2 {
 //        } catch (Exception e){
 //            throw new Exception(e);
 //        }
-        processIperf("Test");
+//        processIperf("Test");
 //        processCurl("");
     }
 

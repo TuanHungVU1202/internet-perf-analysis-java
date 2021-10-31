@@ -25,7 +25,11 @@ public class ParsePingResultUtil {
 
     // Get IP of each request
     public static String getIp(List<String> extractedLst){
-        return extractedLst.get(5);
+        // Ex2
+//        return extractedLst.get(5);
+        // Ex 4
+        // [64, 195.148.124.36, 0, 60, 16.305]
+        return extractedLst.get(1);
     }
 
     public static double getRtt (List<String> extractedLst) {

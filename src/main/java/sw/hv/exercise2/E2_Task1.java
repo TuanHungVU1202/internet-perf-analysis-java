@@ -12,18 +12,19 @@ import java.util.Scanner;
 
 public class E2_Task1 {
     public void parseFile () throws Exception {
-        try {
-            String filePath = GeneralHelper.readInput();
-            boolean isValid = GeneralHelper.isValidFile(filePath);
-            if (isValid) {
-//                processPingResult(filePath);
-//                processDigResult (filePath);
-//                processCurlResult(filePath);
-            }
-        } catch (Exception e){
-            throw new Exception(e);
-        }
-//        processPingResult("Test");
+
+//            String filePath = GeneralHelper.readInput();
+//            boolean isValid = GeneralHelper.isValidFile(filePath);
+//        try {
+//            if (isValid) {
+////                processPingResult(filePath);
+////                processDigResult (filePath);
+////                processCurlResult(filePath);
+//            }
+//        } catch (Exception e){
+//            throw new Exception(e);
+//        }
+        processPingResult("Test");
 //        processDigResult ("test");
 //        processCurlResult("Test");
     }
@@ -31,7 +32,9 @@ public class E2_Task1 {
     // Parse ping result
     private void processPingResult (String filePath) throws Exception {
         String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_ping";
-        File file = new File(testPath);
+        // for Ex4 task 4
+        String pathEx4 = "/Users/hungvu/Desktop/E7130/e4/out/ping_iperf_out/reserver_pna_ping";
+        File file = new File(pathEx4);
         ArrayList<Double> pingRttArrLst = new ArrayList<>();
         int totalPingRequest = 0;
         int totalReceivedPacket = 0;
@@ -40,18 +43,19 @@ public class E2_Task1 {
             Scanner scanner = new Scanner(file);
             double totalDelay = 0;
             boolean sameServerFlag = false;
-
+            int testIndex = 0;
             while (scanner.hasNextLine()){
                 String line = scanner.nextLine();
 
                 //TODO: CHANGE SERVER HERE
-                if (line.contains(ParsePingResultUtil.SERVER_SGP1)){
+                if (line.contains(ParsePingResultUtil.SERVER_PNA)){
                     sameServerFlag = true;
                 }
                 // Get all information of successful requests
                 if (line.contains(ParsePingResultUtil.SUCCESSFUL_PACKET) && sameServerFlag){
                     List<String> extractedLst = GeneralHelper.extractNumberFromString(line);
 //                    long timestamp = ParsePingResultUtil.getTimeStamp(extractedLst);
+                    testIndex++;
                     String ip = ParsePingResultUtil.getIp(extractedLst);
                     double rtt = ParsePingResultUtil.getRtt(extractedLst);
                     totalDelay += rtt;
@@ -75,6 +79,7 @@ public class E2_Task1 {
                 System.out.println("PING -Mean delay= " + calMeanDelay(totalDelay, totalReceivedPacket));
                 System.out.println("PING -Lost ratio= " + calLosttRatio(totalReceivedPacket, totalPingRequest));
                 System.out.println("PING -Delay spread= " + calDelaySpread(pingRttArrLst, totalReceivedPacket));
+                System.out.println("PING - Total delay time= " + totalDelay);
             }
         } catch (Exception e){
             throw new Exception(e);
