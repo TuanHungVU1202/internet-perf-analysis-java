@@ -6,40 +6,42 @@ import java.util.HashMap;
 
 public class ParseCurlUtil {
 
-    public static HashMap<String, Double> bitrateCalculation (ArrayList<Double> bitrateArrList) {
-        HashMap<String, Double> bitrateMap = new HashMap<>();
+    public static HashMap<String, Double> statCalculation (ArrayList<Double> dataArrLst, String nameOfData) {
+        HashMap<String, Double> resultMap = new HashMap<>();
         double sum = 0;
         double median = 0;
         double aveDeviation = 0;
-        for(double element : bitrateArrList) {
+        for(double element : dataArrLst) {
             sum += element;
         }
-        double mean = sum/bitrateArrList.size();
-        bitrateMap.put("Mean bitrate", mean);
 
-        Collections.sort(bitrateArrList);
-        double minBitrate = bitrateArrList.get(0);
-        double maxBitrate = bitrateArrList.get(bitrateArrList.size() - 1);
-        bitrateMap.put("Min bitrate", minBitrate);
-        bitrateMap.put("Max bitrate", maxBitrate);
+        resultMap.put("Sum " + nameOfData, sum);
+        double mean = sum/dataArrLst.size();
+        resultMap.put("Mean " + nameOfData, mean);
 
-        if (bitrateArrList.size() %2 != 0){
-            median = bitrateArrList.get(bitrateArrList.size()/2);
-            bitrateMap.put("Median bitrate", median);
+        Collections.sort(dataArrLst);
+        double minBitrate = dataArrLst.get(0);
+        double maxBitrate = dataArrLst.get(dataArrLst.size() - 1);
+        resultMap.put("Min " + nameOfData, minBitrate);
+        resultMap.put("Max " + nameOfData, maxBitrate);
+
+        if (dataArrLst.size() %2 != 0){
+            median = dataArrLst.get(dataArrLst.size()/2);
+            resultMap.put("Median " + nameOfData, median);
         } else {
-            double tmp1 = bitrateArrList.get((bitrateArrList.size()/2)-1);
-            double tmp2 = bitrateArrList.get((bitrateArrList.size()/2));
+            double tmp1 = dataArrLst.get((dataArrLst.size()/2)-1);
+            double tmp2 = dataArrLst.get((dataArrLst.size()/2));
             median = (tmp1 + tmp2)/2;
-            bitrateMap.put("Median bitrate", median);
+            resultMap.put("Median " + nameOfData, median);
         }
 
         // calculate average deviation
-        for(double element : bitrateArrList) {
-            aveDeviation += Math.abs(element-mean)/bitrateArrList.size();
+        for(double element : dataArrLst) {
+            aveDeviation += Math.abs(element-mean)/dataArrLst.size();
         }
 
-        bitrateMap.put("Average deviation", aveDeviation);
-        return bitrateMap;
+        resultMap.put("Average deviation", aveDeviation);
+        return resultMap;
     }
 
     public static double getDownloadSpeed (String[] splittedArr){

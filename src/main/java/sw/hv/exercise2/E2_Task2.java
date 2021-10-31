@@ -27,15 +27,18 @@ public class E2_Task2 {
 //        } catch (Exception e){
 //            throw new Exception(e);
 //        }
-//        processIperf("Test");
-        processCurl("");
+        processIperf("Test");
+//        processCurl("");
     }
 
     private void processIperf(String filePath) throws Exception {
-        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/t2iperf_reverse2.json";
+//        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/t2iperf_reverse2.json";
+        // For ex 4 task 4
+        String pathEx4 = "/Users/hungvu/Desktop/E7130/e4/out/ping_iperf_out/t2iperf_normal2.json";
         try {
             ArrayList<Double> bitrateArrList = new ArrayList<>();
-            InputStream is = new FileInputStream(testPath);
+            ArrayList<Double> bytesArrList = new ArrayList<>();
+            InputStream is = new FileInputStream(pathEx4);
             Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
             JsonStreamParser parser = new JsonStreamParser(reader);
             // index for total run count (number of intervals)
@@ -74,6 +77,10 @@ public class E2_Task2 {
                         double bitrate = sumObj.get("bits_per_second").getAsDouble();
                         bitrateArrList.add(bitrate);
 
+                        // bytes
+                        double bytes = sumObj.get("bytes").getAsDouble();
+                        bytesArrList.add(bytes);
+
                         System.out.println("Date time: " + formattedDate + " " + formattedTime + " " + "Bitrate: " + bitrate);
                         totalIndex++;
                     }
@@ -81,16 +88,19 @@ public class E2_Task2 {
             }
 
 
-            HashMap<String, Double> resultMap = ParseCurlUtil.bitrateCalculation(bitrateArrList);
-            System.out.println(resultMap);
+            HashMap<String, Double> bitrateMap = ParseCurlUtil.statCalculation(bitrateArrList, "bitrate");
+            System.out.println("Bitrate Stats calculations" + bitrateMap);
+
+            HashMap<String, Double> bytesMap = ParseCurlUtil.statCalculation(bytesArrList, "bytes");
+            System.out.println("Bytes Stats calculations" + bytesMap);
 
             // Plot bitrate grpah
-            final CombinedBitrateRetransmissionPlot bitratePlot = new CombinedBitrateRetransmissionPlot("BitratePlot");
+/*            final CombinedBitrateRetransmissionPlot bitratePlot = new CombinedBitrateRetransmissionPlot("BitratePlot");
             bitratePlot.setListData(lstOfDataRow);
             bitratePlot.plotBitrateChart();
             bitratePlot.pack();
             RefineryUtilities.centerFrameOnScreen(bitratePlot);
-            bitratePlot.setVisible(true);
+            bitratePlot.setVisible(true);*/
 
         } catch (Exception e){
             throw new Exception(e);
@@ -132,7 +142,7 @@ public class E2_Task2 {
             if (!totalDlSpeedArrLst.isEmpty()) {
                 Collections.sort(totalDlSpeedArrLst);
 //                System.out.println("Calculating DOWNLOAD Speed, run once an hour starts at " + formattedDate + " " + formattedTime);
-                System.out.println(ParseCurlUtil.bitrateCalculation(totalDlSpeedArrLst));
+                System.out.println(ParseCurlUtil.statCalculation(totalDlSpeedArrLst, "bitrate"));
             }
 
         } catch (Exception e){

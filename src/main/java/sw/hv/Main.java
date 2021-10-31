@@ -29,6 +29,7 @@ public class Main {
                     break;
                 }
                 // Exercise 2
+                // Also handling iperf results for Ex4 Task 4
                 else if (exAndTask[0].equals("2")) {
                     if(exAndTask[1].equals("1")){
                         System.out.println("Running exercise 2 - Task 1");
