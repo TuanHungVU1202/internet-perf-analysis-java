@@ -27,7 +27,7 @@ public class E2_Task2 {
 //        } catch (Exception e){
 //            throw new Exception(e);
 //        }
-//        processIperf("Test");
+        processIperf("Test");
 //        processCurl("");
     }
 
@@ -35,10 +35,11 @@ public class E2_Task2 {
 //        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/t2iperf_reverse2.json";
         // For ex 4 task 4
         String pathEx4 = "/Users/hungvu/Desktop/E7130/e4/out/ping_iperf_out/t2iperf_normal2.json";
+        String pathFinal = "/Users/hungvu/Desktop/E7130/final/data_09Nov/t2iperf_reverse2.json";
         try {
             ArrayList<Double> bitrateArrList = new ArrayList<>();
             ArrayList<Double> bytesArrList = new ArrayList<>();
-            InputStream is = new FileInputStream(pathEx4);
+            InputStream is = new FileInputStream(pathFinal);
             Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
             JsonStreamParser parser = new JsonStreamParser(reader);
             // index for total run count (number of intervals)
@@ -102,6 +103,20 @@ public class E2_Task2 {
             RefineryUtilities.centerFrameOnScreen(bitratePlot);
             bitratePlot.setVisible(true);*/
 
+            // Final
+            // Write file
+            File f = new File ("/Users/hungvu/Desktop/E7130/final/out/AS2.i2.r");
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+            FileWriter fw = new FileWriter(f.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            // bitrateArrList
+            for(Double delay : bitrateArrList) {
+                bw.write(delay + System.getProperty("line.separator"));
+            }
+            bw.close();
         } catch (Exception e){
             throw new Exception(e);
         }
