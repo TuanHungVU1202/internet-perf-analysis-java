@@ -4,7 +4,7 @@ import sw.hv.util.GeneralHelper;
 import sw.hv.util.ParseDigResultUtil;
 import sw.hv.util.ParsePingResultUtil;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,8 +34,10 @@ public class E2_Task1 {
         String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/iperf_sgp1_ping";
         // for Ex4 task 4
         String pathEx4 = "/Users/hungvu/Desktop/E7130/e4/out/ping_iperf_out/reserver_pna_ping";
-        File file = new File(pathEx4);
+        String pathFinal = "/Users/hungvu/Desktop/E7130/final/data_09Nov/iperf_sgp1_ping";
+        File file = new File(pathFinal);
         ArrayList<Double> pingRttArrLst = new ArrayList<>();
+        ArrayList<Double> lostPktArrLst = new ArrayList<>();
         int totalPingRequest = 0;
         int totalReceivedPacket = 0;
 
@@ -48,7 +50,7 @@ public class E2_Task1 {
                 String line = scanner.nextLine();
 
                 //TODO: CHANGE SERVER HERE
-                if (line.contains(ParsePingResultUtil.SERVER_PNA)){
+                if (line.contains(ParsePingResultUtil.SERVER_SGP1)){
                     sameServerFlag = true;
                 }
                 // Get all information of successful requests
@@ -81,6 +83,26 @@ public class E2_Task1 {
                 System.out.println("PING -Delay spread= " + calDelaySpread(pingRttArrLst, totalReceivedPacket));
                 System.out.println("PING - Total delay time= " + totalDelay);
             }
+
+            // Simulate delay for lost packets
+            for(int i=0; i < totalPingRequest - totalReceivedPacket; i++){
+               lostPktArrLst.add(5.0);
+            }
+
+            // Write file
+            File f = new File ("/Users/hungvu/Desktop/E7130/final/out/AS1.i2.lost");
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+            FileWriter fw = new FileWriter(f.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            // pingRttArrLst
+            // lostPktArrLst
+            for(Double delay : lostPktArrLst) {
+                bw.write(delay + System.getProperty("line.separator"));
+            }
+            bw.close();
         } catch (Exception e){
             throw new Exception(e);
         }
@@ -88,7 +110,8 @@ public class E2_Task1 {
 
     // Parse Dig result
     private void processDigResult (String filePath) throws Exception {
-        String testPath = "/Users/hungvu/Desktop/E7130/e2/data_43hours/out/nameserver_dig";
+        // Final
+        String testPath = "/Users/hungvu/Desktop/E7130/final/data_09Nov/nameserver3_dig";
         File file = new File(testPath);
         ArrayList<Double> queryTimeArrLst = new ArrayList<>();
 
@@ -126,6 +149,18 @@ public class E2_Task1 {
                 System.out.println("DIG -Delay spread= " + calDelaySpread(queryTimeArrLst, totalSucessfulRequest));
             }
 
+            // Write file
+            File f = new File ("/Users/hungvu/Desktop/E7130/final/out/AS1.d3");
+            if (!f.exists()) {
+                f.createNewFile();
+            }
+            FileWriter fw = new FileWriter(f.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            for(Double delay : queryTimeArrLst) {
+                bw.write(delay + System.getProperty("line.separator"));
+            }
+            bw.close();
         } catch (Exception e){
             throw new Exception(e);
         }
